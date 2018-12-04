@@ -1,0 +1,22 @@
+# Select data from database using odbc by DSN
+
+    def db_select(self,sql):
+        # read config data from DB
+        try:
+            logger.debug("Connecting to DB")
+            conn = pyodbc.connect('DSN=dsnName;UID=user;PWD=password;')
+            logger.debug("DB Connected")
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            logger.debug("Executing querry")
+        except:
+            logger.error("DB Connection error: " + str(sys.exc_info()[1]))
+            conn.close()
+            sys.exit()
+        #output as a list
+        output = []
+        for row in cursor.fetchall():
+            output.append(row[0])
+        conn.close()
+        print(output)
+        return output
