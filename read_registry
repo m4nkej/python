@@ -1,0 +1,13 @@
+# REad data from Windwos registry in HKLM
+
+  def read_reg_key_LM(self,path,key):
+        logger.debug('Reading path:'+path+" and Key:"+key)
+        hKey = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
+        try:
+            value = winreg.QueryValueEx(hKey, key)
+            logger.debug("Readed value" + str(value))
+        except FileNotFoundError:
+            print("Value not found. Path:"+path+" Key:"+key)
+            sys.exit()
+        winreg.CloseKey(hKey)
+        return value
